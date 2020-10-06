@@ -11,7 +11,7 @@ describe Oystercard do
     end
 
     it 'raises an error if the balance is > £90' do
-      expect { subject.top_up(100) }. to raise_error "Cannot top-up: Balance cannot be over £90"
+      expect { subject.top_up(100) }.to raise_error "Cannot top-up by 100: Balance cannot be over £90"
   end
 
   end
