@@ -54,7 +54,7 @@ describe Oystercard do
 
     it 'checks that touch_in has updated the entry_station' do
       subject.top_up(50)
-      expect { subject.touch_in(:station) }.to change { subject.entry_station }.to eq (:station)
+      expect { subject.touch_in(:station) }.to change { subject.current_journey[:entry_station] }.to eq (:station)
     end
 
     it 'raises an error if card balance is lower than £1' do
@@ -74,7 +74,7 @@ describe Oystercard do
 
     it 'checks that touch_out has updated the exit_station' do
       subject.top_up(50)
-      expect { subject.touch_out(:station) }.to change { subject.exit_station}.to eq (:station)
+      expect { subject.touch_out(:station) }.to change { subject.current_journey[:exit_station]}.to eq (:station)
     end
 
   end
