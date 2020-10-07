@@ -1,6 +1,16 @@
 require './lib/oystercard'
 describe Oystercard do
   let(:station) { double :station }
+  # WORKING ON USING DOUBLES TO REFACTOR
+  # let(:topped_up_card) { instance_double("Oystercard", :balance => 20, :entry_station => nil)}
+
+  # before do
+  #   allow(topped_up_card).to receive(:top_up)
+  #   allow(topped_up_card).to receive(:touch_in).with(:station)
+  #   allow(topped_up_card).to receive(:touch_out)
+  #   topped_up_card.top_up(10)
+  # end
+
   describe '#initialized cards' do
     it 'freshly initialized cards should have a balance of 0' do
       expect(subject.balance).to eq 0
@@ -39,7 +49,6 @@ describe Oystercard do
     it 'updates @travelling to true' do
       subject.top_up(50)
       subject.touch_in(:station)
-
       expect(subject.travelling).to eq true
     end
 
