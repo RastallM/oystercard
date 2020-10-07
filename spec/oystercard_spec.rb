@@ -1,10 +1,11 @@
 require './lib/oystercard'
 describe Oystercard do
+  let(:station) { double :station }
   describe '#initialized cards' do
     it 'freshly initialized cards should have a balance of 0' do
       expect(subject.balance).to eq 0
     end
-  end 
+  end
 
   describe '#top_up' do
     it 'tops up the balance by value' do
@@ -16,14 +17,14 @@ describe Oystercard do
     end
   end
 
-  describe '#deduct()' do 
+  describe '#deduct()' do
     it 'deducts an amount from the balance' do
-     
+
       expect { subject.deduct(10) }.to change { subject.balance }.by -10
     end
   end
 
-  describe '#injourney?' do 
+  describe '#injourney?' do
     it 'initially has in_journey? = false when created' do
 
       expect(subject.in_journey?).to eq false
@@ -33,18 +34,18 @@ describe Oystercard do
   describe '#touch_in' do
     it 'updates @travelling to true' do
       subject.top_up(50)
-      subject.touch_in("station")
+      subject.touch_in(:station)
 
       expect(subject.travelling).to eq true
     end
 
     it 'checks that touch_in has updated the entry_station' do
       subject.top_up(50)
-      expect { subject.touch_in("bank") }.to change { subject.entry_station }.to eq ("bank")
+      expect { subject.touch_in(:station) }.to change { subject.entry_station }.to eq (:station)
     end
 
     it 'raises an error if card balance is lower than £1' do
-      expect { subject.touch_in("station")}.to raise_error 'Unable to travel, balance less than £1'
+      expect { subject.touch_in(:station)}.to raise_error 'Unable to travel, balance less than £1'
     end
   end
 
