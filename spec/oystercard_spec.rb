@@ -5,6 +5,10 @@ describe Oystercard do
     it 'freshly initialized cards should have a balance of 0' do
       expect(subject.balance).to eq 0
     end
+
+    it 'freshly initialized cards should have NO journey history' do
+      expect(subject.journey_history).to eq []
+    end
   end
 
   describe '#top_up' do
@@ -51,13 +55,27 @@ describe Oystercard do
 
   describe '#touch_out' do
     it 'updates @travelling to false' do
-      subject.touch_out
+      subject.touch_out(:station)
       expect(subject.travelling).to be false
     end
 
     it 'deduces the minimum fare from @balance' do
-      expect { subject.touch_out }.to change { subject.balance }.by -1
+      expect { subject.touch_out(:station) }.to change { subject.balance }.by -1
     end
+
+    it 'checks that touch_out has updated the exit_station' do
+      subject.top_up(50)
+      expect { subject.touch_out(:station) }.to change { subject.exit_station}.to eq (:station)
+    end
+
   end
 
+  describe '@journey_history' do
+    it 'adds entry and exit stations to history after touch_in and touch_out' do
+      subject.top_up(20)
+      subject.touch_in(:station)
+      subject.touch_out(:station)
+      expect(subject.journey_history).to eq [ {entry_station: :station, exit_station: :station} ]
+    end
+  end
 end
