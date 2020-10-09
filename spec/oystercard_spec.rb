@@ -1,6 +1,5 @@
 require './lib/oystercard'
 describe Oystercard do
-  let(:station) { double :station }
   # WORKING ON USING DOUBLES TO REFACTOR
   # let(:topped_up_card) { instance_double("Oystercard", :balance => 20, :entry_station => nil)}
 
@@ -31,17 +30,17 @@ describe Oystercard do
     end
   end
 
-  describe '#deduct()' do
+  describe '#fare()' do
     it 'deducts an amount from the balance' do
 
-      expect { subject.deduct(10) }.to change { subject.balance }.by -10
+      expect { subject.fare(10) }.to change { subject.balance }.by -10
     end
   end
 
   describe '#injourney?' do
-    it 'initially has in_journey? = false when created' do
+    it 'initially has travelling? = false when created' do
 
-      expect(subject.in_journey?).to eq false
+      expect(subject.travelling?).to eq false
     end
   end
 
@@ -49,7 +48,7 @@ describe Oystercard do
     it 'updates @travelling to true' do
       subject.top_up(50)
       subject.touch_in(:station)
-      expect(subject.travelling).to eq true
+      expect(subject.travelling?).to eq true
     end
 
     it 'checks that touch_in has updated the entry_station' do
@@ -65,7 +64,7 @@ describe Oystercard do
   describe '#touch_out' do
     it 'updates @travelling to false' do
       subject.touch_out(:station)
-      expect(subject.travelling).to be false
+      expect(subject.travelling?).to be false
     end
 
     it 'deduces the minimum fare from @balance' do
@@ -88,3 +87,15 @@ describe Oystercard do
     end
   end
 end
+
+
+# #  testing doubles
+# describe Oystercard do
+#   it "uses a mock with a topped up balance" do
+#   topped_up_card = double('oystcard')
+
+#   allow(topped_up_card).to receive(:baance) {10}
+
+#   expect(topped_up_card.baance).to eq 10
+#   end
+# end
